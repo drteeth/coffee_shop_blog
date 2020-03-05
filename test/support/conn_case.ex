@@ -6,13 +6,6 @@ defmodule CoffeeShopWeb.ConnCase do
   Such tests rely on `Phoenix.ConnTest` and also
   import other functionality to make it easier
   to build common data structures and query the data layer.
-
-  Finally, if the test case interacts with the database,
-  we enable the SQL sandbox, so changes done to the database
-  are reverted at the end of every test. If you are using
-  PostgreSQL, you can even run database tests asynchronously
-  by setting `use CoffeeShopWeb.ConnCase, async: true`, although
-  this option is not recommended for other databases.
   """
 
   use ExUnit.CaseTemplate
@@ -28,12 +21,8 @@ defmodule CoffeeShopWeb.ConnCase do
     end
   end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(CoffeeShop.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(CoffeeShop.Repo, {:shared, self()})
-    end
+  setup _tags do
+    CoffeeShop.Storage.reset!()
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
