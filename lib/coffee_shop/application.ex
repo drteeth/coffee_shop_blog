@@ -8,6 +8,7 @@ defmodule CoffeeShop.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
+      CoffeeShop.CommandedApp,
       # Start the Ecto repository
       CoffeeShop.Repo,
       # Start the endpoint when the application starts
